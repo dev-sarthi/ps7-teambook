@@ -1,21 +1,33 @@
 # TeamBook
 
-TeamBook is a small app for browsing employees and viewing their profiles. Employee information comes from DummyJSON.
+**PS Number:** PS-7
 
-## Live site
+TeamBook is a small app for browsing employees, searching by name, and viewing employee profiles.
 
-[Open TeamBook](https://teambook-pi.vercel.app/)
+**API:** [DummyJSON Users API](https://dummyjson.com/users)
 
-## Run the app
+**Live link:** [https://teambook-pi.vercel.app/](https://teambook-pi.vercel.app/)
+
+## Routes
+
+- `/` — Home page
+- `/employees` — Browse and search employees
+- `/employees/:id` — View an employee profile
+- Any other route shows the not-found page
+
+## Screenshots
+
+### Home page
+
+![TeamBook home page](./public/screenshots/home.png)
+
+### Employees page
+
+![TeamBook employees page](./public/screenshots/employees.png)
+
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
-
-## Pages
-
-- **Home** (`/`): Introduction and a link to the employee list.
-- **Employees** (`/employees`): Browse and search employees.
-- **Employee profile** (`/employees/:id`): View an employee's details.
-- **Not found**: Shown for any other route.
