@@ -2,6 +2,10 @@
 
 TeamBook is a small app for browsing employees and viewing their profiles. Employee information comes from DummyJSON.
 
+## Live site
+
+[Open TeamBook](https://teambook-pi.vercel.app/)
+
 ## Run the app
 
 ```bash
