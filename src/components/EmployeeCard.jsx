@@ -1,9 +1,14 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function EmployeeCard({ user }) {
   return (
-    <div className="card">
-      <img src={user.image} alt={`${user.firstName} ${user.lastName}`} />
+    <div className="employee-card">
+      <img
+        className="employee-card-image"
+        src={user.image}
+        alt={`${user.firstName} ${user.lastName}`}
+      />
       <h3>
         {user.firstName} {user.lastName}
       </h3>

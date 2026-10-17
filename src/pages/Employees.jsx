@@ -1,25 +1,27 @@
-import { useState, useEffect } from "react";
-import EmployeeCard from "../components/EmployeeCard";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import EmployeeCard from '../components/EmployeeCard';
 
 function Employees() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
-  useEffect(function () {
-    fetch("https://dummyjson.com/users?limit=30")
-      .then(function (res) {
-        return res.json();
-      })
-      .then(function (data) {
-        setUsers(data.users);
+  useEffect(() => {
+    async function APIcall() {
+      try {
+        const response = await fetch('https://dummyjson.com/users?limit=30');
+        const data = await response.json();
+        setUsers(data.users || []);
         setLoading(false);
-      })
-      .catch(function () {
+      } catch (err) {
         setError(true);
         setLoading(false);
-      });
+      }
+    }
+
+    APIcall();
   }, []);
 
   if (loading) {
@@ -30,39 +32,30 @@ function Employees() {
     return <p>Something went wrong</p>;
   }
 
-  const cards = [];
-
-  for (let i = 0; i < users.length; i++) {
-    const name = `${users[i].firstName} ${users[i].lastName}`;
-    const lowerName = name.toLowerCase();
-    const lowerSearch = search.toLowerCase();
-
-    if (lowerName.includes(lowerSearch)) {
-      cards.push(<EmployeeCard key={users[i].id} user={users[i]} />);
-    }
-  }
-
-  let message = null;
-  if (cards.length === 0) {
-    message = <p>No employees found</p>;
-  }
+  const searchText = search.toLowerCase();
+  const filteredUsers = users.filter((user) => {
+    const name = `${user.firstName} ${user.lastName}`;
+    return name.toLowerCase().includes(searchText);
+  });
 
   return (
-    <div>
+    <div className="employees-page">
       <h1>Our Team</h1>
-
       <input
+        className="employees-search"
         type="text"
         placeholder="Search by name"
         value={search}
-        onChange={function (e) {
-          setSearch(e.target.value);
-        }}
+        onChange={(e) => setSearch(e.target.value)}
       />
 
-      {message}
+      {filteredUsers.length === 0 && <p>No employees found</p>}
 
-      <div className="grid">{cards}</div>
+      <div className="employees-grid">
+        {filteredUsers.map((user) => (
+          <EmployeeCard key={user.id} user={user} />
+        ))}
+      </div>
     </div>
   );
 }

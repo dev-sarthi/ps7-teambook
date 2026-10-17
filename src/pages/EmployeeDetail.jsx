@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 function EmployeeDetail() {
   const { id } = useParams();
@@ -7,26 +8,21 @@ function EmployeeDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  useEffect(
-    function () {
-      fetch(`https://dummyjson.com/users/${id}`)
-        .then(function (res) {
-          if (!res.ok) {
-            throw new Error("Failed to fetch employee");
-          }
-          return res.json();
-        })
-        .then(function (data) {
-          setEmployee(data);
-          setLoading(false);
-        })
-        .catch(function () {
-          setError(true);
-          setLoading(false);
-        });
-    },
-    [id]
-  );
+  useEffect(() => {
+    async function APIcall() {
+      try {
+        const response = await fetch(`https://dummyjson.com/users/${id}`);
+        const data = await response.json();
+        setEmployee(data);
+        setLoading(false);
+      } catch (err) {
+        setError(true);
+        setLoading(false);
+      }
+    }
+
+    APIcall();
+  }, [id]);
 
   if (loading) {
     return <p>Loading employee...</p>;
@@ -34,7 +30,7 @@ function EmployeeDetail() {
 
   if (error || !employee) {
     return (
-      <div>
+      <div className="employee-detail">
         <p>Employee not found.</p>
         <Link to="/employees">Back to employees</Link>
       </div>
@@ -42,11 +38,15 @@ function EmployeeDetail() {
   }
 
   return (
-    <div>
+    <div className="employee-detail">
       <h1>
         {employee.firstName} {employee.lastName}
       </h1>
-      <img src={employee.image} alt={`${employee.firstName} ${employee.lastName}`} />
+      <img
+        className="employee-detail-image"
+        src={employee.image}
+        alt={`${employee.firstName} ${employee.lastName}`}
+      />
       <p>Email: {employee.email}</p>
       <p>Department: {employee.company.department}</p>
       <p>Role: {employee.company.title}</p>

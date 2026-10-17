@@ -1,18 +1,17 @@
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Employees from "./pages/Employees";
-import EmployeeDetail from "./pages/EmployeeDetail";
-import NotFound from "./pages/NotFound";
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Employees from './pages/Employees';
+import EmployeeDetail from './pages/EmployeeDetail';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <div>
-     
+    <div className="app-shell">
       <Navbar />
 
-      <div className="container">
-       
+      <div className="app-container">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/employees" element={<Employees />} />
